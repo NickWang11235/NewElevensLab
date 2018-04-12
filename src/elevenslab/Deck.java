@@ -5,6 +5,9 @@
  */
 package elevenslab;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -13,17 +16,42 @@ import java.util.Stack;
  */
 public class Deck {
     
-    private Stack<Card> deck = new Stack();
+    private ArrayList<Card> deck = new ArrayList<Card>();
     
     public Deck(String[] cardRank, String[] cardSuit, int[] cardPointValue){
         
            for(int i = 0; i < cardRank.length; i++)
                for(int j = 0; j < cardSuit.length; j++)
-                   deck.push(new Card(cardRank[i], cardSuit[j], cardPointValue[i]));
+                   deck.add(new Card(cardRank[i], cardSuit[j], cardPointValue[i]));
+    }
+    
+    public ArrayList<Card> getDeck(){
+        return deck;
     }
     
     public Card deal(){
-        return deck.pop();
+        Card card = deck.get(deck.size()-1);
+        deck.remove(deck.size()-1);
+        return card;
     }
                 
+    public boolean isEmpty(){
+        return deck.isEmpty();
+    }
+    
+    public int size(){
+        return deck.size();
+    }   
+    
+    public void shuffle(){
+        
+        Random gen = new Random();
+        
+        for(int i = deck.size()-1; i >0 ; i--){
+            int index = gen.nextInt(i);  
+            Card temp = deck.get(index);
+            deck.set(index, deck.get(i));
+            deck.set(i, temp);
+        }
+    }
 }
