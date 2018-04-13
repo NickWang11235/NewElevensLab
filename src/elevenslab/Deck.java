@@ -6,9 +6,7 @@
 package elevenslab;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * Simulates a deck of card
@@ -23,6 +21,7 @@ public class Deck {
            for(int i = 0; i < cardRank.length; i++)
                for(int j = 0; j < cardSuit.length; j++)
                    deck.add(new Card(cardRank[i], cardSuit[j], cardPointValue[i]));
+           shuffle();
     }
     
     public ArrayList<Card> getDeck(){
