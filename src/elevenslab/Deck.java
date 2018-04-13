@@ -15,9 +15,10 @@ import java.util.Random;
 public class Deck {
     
     private ArrayList<Card> deck = new ArrayList<Card>();
+    private int size;
     
     public Deck(String[] cardRank, String[] cardSuit, int[] cardPointValue){
-        
+        size = cardRank.length * cardSuit.length;
            for(int i = 0; i < cardRank.length; i++)
                for(int j = 0; j < cardSuit.length; j++)
                    deck.add(new Card(cardRank[i], cardSuit[j], cardPointValue[i]));
@@ -52,5 +53,6 @@ public class Deck {
             deck.set(index, deck.get(i));
             deck.set(i, temp);
         }
+        size = deck.size();
     }
 }
