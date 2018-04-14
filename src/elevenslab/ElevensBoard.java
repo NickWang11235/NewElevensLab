@@ -31,31 +31,16 @@ public class ElevensBoard extends Board {
 	private static final int[] POINT_VALUES =
 		{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 0};
 
-        /**
-         * An ArrayList containing the cards J,Q,K.
-         */
-        private static ArrayList<String> JQK = new ArrayList();
+	/**
+	 * Flag used to control debugging print statements.
+	 */
+	private static final boolean I_AM_DEBUGGING = false;
+
         
-        {
-            JQK.add("jack");
-            JQK.add("queen");
-            JQK.add("king");
-        }
-	
-        public ElevensBoard() {
-		super(BOARD_SIZE, RANKS, SUITS, POINT_VALUES);
+        public ElevensBoard(){
+            super(BOARD_SIZE,RANKS, SUITS, POINT_VALUES);
 	}
 
-	/**
-	 * Replaces selected cards on the board by dealing new cards.
-	 * @param selectedCards is a list of the indices of the
-	 *        cards to be replaced.
-	 */
-	public void replaceSelectedCards(List<Integer> selectedCards) {
-		for (Integer k : selectedCards) {
-			deal(k.intValue());
-		}
-	}
 
         /**
 	 * Determines if the selected cards form a valid group for removal.
@@ -68,7 +53,8 @@ public class ElevensBoard extends Board {
 	 */
         @Override
 	public boolean isLegal(List<Integer> selectedCards) {
-            return containsPairSum11(selectedCards)||containsJQK(selectedCards);
+            return (containsPairSum11(selectedCards)&& selectedCards.size() == 2)||
+                    (containsJQK(selectedCards)&&selectedCards.size()==3);
         }
 
 	/**
@@ -81,10 +67,7 @@ public class ElevensBoard extends Board {
 	 */
 	public boolean anotherPlayIsPossible() {
             
-            ArrayList<Integer> allDeck = new ArrayList();
-            for(int i = 0; i < BOARD_SIZE; i++)
-                allDeck.add(i);
-            
+            List<Integer> allDeck = cardIndexes();
             return containsPairSum11(allDeck)||containsJQK(allDeck);
             
         }
@@ -98,17 +81,14 @@ public class ElevensBoard extends Board {
 	 *              contain an 11-pair; false otherwise.
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
-            for(int i = 0; i < selectedCards.size()-2; i++)
-                for(int j = i+1; j < selectedCards.size(); j++){
-                    int sum = 0;
-                    if(selectedCards.get(i)+selectedCards.get(j) == 11){
+            for(int i = 0; i < selectedCards.size(); i++)
+                for(int j = i+1; j < selectedCards.size(); j++)
+                    if(cardAt(selectedCards.get(i)).pointValue()+cardAt(selectedCards.get(j)).pointValue() == 11)
                         return true;
-                    }
-               }
             return false;
         }
-            
-
+        
+        
 	/**
 	 * Check for a JQK in the selected cards.
 	 * @param selectedCards selects a subset of this board.  It is list
@@ -118,7 +98,10 @@ public class ElevensBoard extends Board {
 	 *              include a jack, a queen, and a king; false otherwise.
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
-            ArrayList<String> temp = new ArrayList();
+            ArrayList<String> temp = new ArrayList(), JQK = new ArrayList();
+            JQK.add("jack");
+            JQK.add("queen");
+            JQK.add("king");
             for(Integer index : selectedCards)
                 temp.add(cardAt(index).rank());
             return temp.containsAll(JQK);
