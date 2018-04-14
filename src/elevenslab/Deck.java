@@ -15,21 +15,21 @@ import java.util.Random;
  */
 public class Deck {
     
-    private List<Card> cards = new ArrayList();
+    private List<Card> cards;
     private int size;
     
     public Deck(String[] cardRank, String[] cardSuit, int[] cardPointValue){
-           for(int i = 0; i < cardRank.length; i++)
-               for(int j = 0; j < cardSuit.length; j++)
-                   cards.add(new Card(cardRank[i], cardSuit[j], cardPointValue[i]));
-           size = cards.size();
-           shuffle();
+        cards = new ArrayList();
+        for(int i = 0; i < cardRank.length; i++)
+            for(int j = 0; j < cardSuit.length; j++)
+                cards.add(new Card(cardRank[i], cardSuit[j], cardPointValue[i]));
+        size = cards.size();
+        shuffle();
     }
-    
+
     public Card deal(){
-        Card card = cards.get(size-1);
-        cards.remove(size-1);
         size--;
+        Card card = cards.get(size);
         return card;
     }
                 

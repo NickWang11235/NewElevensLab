@@ -41,7 +41,6 @@ public class ElevensBoard extends Board {
             super(BOARD_SIZE,RANKS, SUITS, POINT_VALUES);
 	}
 
-
         /**
 	 * Determines if the selected cards form a valid group for removal.
 	 * In Elevens, the legal groups are (1) a pair of non-face cards
@@ -87,7 +86,6 @@ public class ElevensBoard extends Board {
                         return true;
             return false;
         }
-        
         
 	/**
 	 * Check for a JQK in the selected cards.
